@@ -56,7 +56,7 @@ void showMyDialog(BuildContext context) {
       return Consumer<HomeProvider>(
         builder: (context, searchEngineProvider, maritalSearch) {
           return AlertDialog(
-            title: Text('Search Engine'),
+            title: const Text('Search Engine'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -66,7 +66,7 @@ void showMyDialog(BuildContext context) {
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
-                  title: Text("Google"),
+                  title: const Text("Google"),
                 ),
                 RadioListTile(
                   value: "Yahoo",
@@ -74,7 +74,7 @@ void showMyDialog(BuildContext context) {
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
-                  title: Text("Yahoo"),
+                  title: const Text("Yahoo"),
                 ),
                 RadioListTile(
                   value: "Bing",
@@ -82,7 +82,7 @@ void showMyDialog(BuildContext context) {
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
-                  title: Text("Bing"),
+                  title: const Text("Bing"),
                 ),
                 RadioListTile(
                   value: "Duck Duck Go",
@@ -90,7 +90,7 @@ void showMyDialog(BuildContext context) {
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
-                  title: Text("Duck Duck Go"),
+                  title: const Text("Duck Duck Go"),
                 ),
               ],
             ),
