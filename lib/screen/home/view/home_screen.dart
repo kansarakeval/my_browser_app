@@ -1,66 +1,9 @@
-// import 'package:flutter/material.dart';
-//
-// class HomeScreen extends StatefulWidget {
-//   const HomeScreen({super.key});
-//
-//   @override
-//   State<HomeScreen> createState() => _HomeScreenState();
-// }
-//
-// class _HomeScreenState extends State<HomeScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         appBar: AppBar(
-//           title: Text(
-//             "My Browser",
-//             style: TextStyle(
-//               fontSize: 25,
-//               fontWeight: FontWeight.bold
-//             ),
-//           ),
-//           centerTitle: true,
-//           actions: [
-//             PopupMenuButton(
-//               itemBuilder: (context) {
-//                 return [
-//                   PopupMenuItem(
-//                     child: Row(
-//                       children: [
-//                         Icon(Icons.bookmark),
-//                         SizedBox(width: 10,),
-//                         Text(
-//                           "All Bookmarks",
-//                           style: TextStyle(fontSize: 20),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   PopupMenuItem(
-//                     child: Row(
-//                       children: [
-//                         Icon(Icons.screen_search_desktop_rounded),
-//                         SizedBox(width: 10,),
-//                         Text(
-//                           "Search Engine",
-//                           style: TextStyle(fontSize: 20),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ];
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:my_browser_app/Widget/alter_widget.dart';
+import 'package:my_browser_app/screen/home/provider/home_provider.dart';
+import 'package:my_browser_app/util/network.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -70,10 +13,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  NetworkConnection networkConnection = NetworkConnection();
+  HomeProvider? providerr;
+  HomeProvider? providerw;
   InAppWebViewController? inAppWebViewController;
+  TextEditingController txtSearch = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    networkConnection.checkConnection(context);
+  }
+  @override
   Widget build(BuildContext context) {
+    providerr = context.read<HomeProvider>();
+    providerw = context.watch<HomeProvider>();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -89,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   PopupMenuItem(
                     child: GestureDetector(
                       onTap: () {
-                        showMyDialog(context);
+                        // showMyDialog(context);
                       },
                       child: Row(
                         children: [
@@ -129,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
-        body: Stack(
+        body: providerw!.isOnline ? Stack(
           children: [
             InAppWebView(
               initialUrlRequest: URLRequest(
@@ -158,9 +112,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   children: [
                     TextField(
+                      controller: txtSearch,
                       decoration: InputDecoration(
                         suffixIcon: IconButton(
                           onPressed: () {
+                            inAppWebViewController?.loadUrl(
+                              urlRequest: URLRequest(
+                                url: Uri.parse(
+                                    "https://www.google.com/search?q=${txtSearch.text}"),
+                              ),
+                            );
                           },
                           icon: Icon(Icons.search),
                         ),
@@ -205,6 +166,22 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           ],
+        )
+            :Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage("asset/image/wifi.png"),
+                width: 100,
+                height: 100,
+              ),
+              Text(
+                "no Network connection",
+                style: (TextStyle(fontSize: 20)),
+              )
+            ],
+          ),
         ),
       ),
     );

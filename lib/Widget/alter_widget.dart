@@ -1,28 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:my_browser_app/screen/home/provider/home_provider.dart';
-import 'package:provider/provider.dart';
 
 void showMyDialog(BuildContext context) {
+  String maritalstatus = "Google";
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: Text('My Dialog'),
+        title: Text('Search Engine'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             RadioListTile(
-              value: 1,
-              groupValue: 1,
+              value: "Google",
+              groupValue: maritalstatus,
               onChanged: (value) {},
-              title: Text("Single"),
+              title: Text("Google"),
             ),
             RadioListTile(
-              value: 1,
-              groupValue: 1,
+              value: "Yahoo",
+              groupValue: maritalstatus,
               onChanged: (value) {},
-              title: Text("Married"),
+              title: Text("Yahoo"),
             ),
+            RadioListTile(
+              value: "Bing",
+              groupValue: maritalstatus,
+              onChanged: (value) {},
+              title: Text("Bing"),
+            ),
+            RadioListTile(
+              value: "Duck Duck Go",
+              groupValue: maritalstatus,
+              onChanged: (value) {},
+              title: Text("Duck Duck Go"),
+            ),
+
           ],
         ),
       );
