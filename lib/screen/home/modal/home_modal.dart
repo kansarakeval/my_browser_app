@@ -1,3 +1,6 @@
-class Home_Model{
+class HomeModel{
 
+  String link;
+
+  HomeModel({required this.link});
 }

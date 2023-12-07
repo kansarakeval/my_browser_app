@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:my_browser_app/Widget/alter_widget.dart';
+import 'package:my_browser_app/Widget/showbutton.dart';
 import 'package:my_browser_app/screen/home/provider/home_provider.dart';
 import 'package:my_browser_app/util/network.dart';
 import 'package:provider/provider.dart';
