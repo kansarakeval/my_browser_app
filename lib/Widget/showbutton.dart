@@ -54,7 +54,7 @@ void showMyDialog(BuildContext context) {
     context: context,
     builder: (context) {
       return Consumer<HomeProvider>(
-        builder: (context, searchEngineProvider, _) {
+        builder: (context, searchEngineProvider, maritalSearch) {
           return AlertDialog(
             title: Text('Search Engine'),
             content: Column(
@@ -62,7 +62,7 @@ void showMyDialog(BuildContext context) {
               children: [
                 RadioListTile(
                   value: "Google",
-                  groupValue: searchEngineProvider.maritalStatus,
+                  groupValue: searchEngineProvider.maritalSearch,
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
@@ -70,7 +70,7 @@ void showMyDialog(BuildContext context) {
                 ),
                 RadioListTile(
                   value: "Yahoo",
-                  groupValue: searchEngineProvider.maritalStatus,
+                  groupValue: searchEngineProvider.maritalSearch,
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
@@ -78,7 +78,7 @@ void showMyDialog(BuildContext context) {
                 ),
                 RadioListTile(
                   value: "Bing",
-                  groupValue: searchEngineProvider.maritalStatus,
+                  groupValue: searchEngineProvider.maritalSearch,
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },
@@ -86,7 +86,7 @@ void showMyDialog(BuildContext context) {
                 ),
                 RadioListTile(
                   value: "Duck Duck Go",
-                  groupValue: searchEngineProvider.maritalStatus,
+                  groupValue: searchEngineProvider.maritalSearch,
                   onChanged: (value) {
                     searchEngineProvider.setMaritalStatus(value.toString());
                   },

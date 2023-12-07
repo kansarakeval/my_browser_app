@@ -18,12 +18,12 @@ class HomeProvider with ChangeNotifier{
     notifyListeners();
   }
 
-  String _maritalStatus = "Google";
+  String maritalSearch = "Google";
 
-  String get maritalStatus => _maritalStatus;
+  String get maritalStatus => maritalSearch;
 
   void setMaritalStatus(String value) {
-    _maritalStatus = value;
+    maritalSearch = value;
     notifyListeners();
   }
 }
