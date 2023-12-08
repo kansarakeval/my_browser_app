@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_browser_app/screen/home/modal/home_modal.dart';
+import 'package:my_browser_app/util/shere_helper.dart';
 
 class HomeProvider with ChangeNotifier{
   bool isOnline = false;
@@ -26,4 +27,13 @@ class HomeProvider with ChangeNotifier{
     maritalSearch = value;
     notifyListeners();
   }
+
+  List<String>? bookMarkData = [];
+
+  void getBookMark() async {
+    ShareHelper shareHelper = ShareHelper();
+    bookMarkData = await shareHelper.getBookMark();
+    notifyListeners();
+  }
+
 }
