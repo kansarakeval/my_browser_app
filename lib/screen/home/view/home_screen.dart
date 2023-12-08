@@ -15,18 +15,23 @@ class HomeScreen extends StatefulWidget {
 }
 
 class HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    networkConnection.checkConnection(context);
+    pullToRefreshController = PullToRefreshController(
+      onRefresh: () async {
+        await inAppWebViewController?.reload();
+      },
+      options: PullToRefreshOptions(color: Colors.black));
+  }
+
   NetworkConnection networkConnection = NetworkConnection();
   HomeProvider? providerr;
   HomeProvider? providerw;
   static InAppWebViewController? inAppWebViewController;
   TextEditingController txtSearch = TextEditingController();
-  double progressValue = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    networkConnection.checkConnection(context);
-  }
+  PullToRefreshController? pullToRefreshController;
 
   @override
   Widget build(BuildContext context) {
@@ -89,120 +94,125 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         body: providerw!.isOnline
             ? Stack(
-          children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: Uri.parse("https://www.google.co.in/"),
-              ),
-              onLoadStart: (controller, url) {
-                inAppWebViewController = controller;
-              },
-              onLoadStop: (controller, url) {
-                inAppWebViewController = controller;
-              },
-              onLoadError: (controller, url, code, message) {
-                inAppWebViewController = controller;
-              },
-              onProgressChanged: (controller, progress) {
-                setState(() {
-                  progressValue = progress / 100;
-                });
-              },
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                padding: const EdgeInsets.all(10),
-                height: 138,
-                width: double.infinity,
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: txtSearch,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            inAppWebViewController?.loadUrl(
-                              urlRequest: URLRequest(
-                                url: Uri.parse(
-                                    "https://www.google.com/search?q=${txtSearch.text}"),
+                children: [
+                  InAppWebView(
+                    initialUrlRequest: URLRequest(
+                      url: Uri.parse("https://www.google.co.in/"),
+                    ),
+                    onLoadStart: (controller, url) {
+                      inAppWebViewController = controller;
+                    },
+                    onLoadStop: (controller, url) {
+                      inAppWebViewController = controller;
+                    },
+                    onLoadError: (controller, url, code, message) {
+                      inAppWebViewController = controller;
+                    },
+                    onProgressChanged: (controller, progress) {
+                      inAppWebViewController = controller;
+                      providerw!.setProgress(progress);
+                      if (progress == 100) {
+                        pullToRefreshController?.endRefreshing();
+                      }
+                    },
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      height: 138,
+                      width: double.infinity,
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: txtSearch,
+                            decoration: InputDecoration(
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  inAppWebViewController?.loadUrl(
+                                    urlRequest: URLRequest(
+                                      url: Uri.parse(
+                                          "https://www.google.com/search?q=${txtSearch.text}"),
+                                    ),
+                                  );
+                                },
+                                icon: const Icon(Icons.search),
                               ),
-                            );
-                          },
-                          icon: const Icon(Icons.search),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        hintText: "search",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              hintText: "search",
+                            ),
+                          ),
+                          LinearProgressIndicator(
+                            color: Colors.blue,
+                            value: providerr!.progressValue,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              IconButton(
+                                  onPressed: () {
+                                    inAppWebViewController!.loadUrl(
+                                      urlRequest: URLRequest(
+                                        url: Uri.parse(
+                                            "https://www.google.co.in/"),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.home_filled)),
+                              IconButton(
+                                  onPressed: () async {
+                                    String uri =
+                                        (await inAppWebViewController!.getUrl())
+                                            .toString();
+                                    providerr!.bookMarkData!.add(uri);
+                                    ShareHelper sharHelper = ShareHelper();
+                                    await sharHelper
+                                        .setBookMark(providerr!.bookMarkData!);
+                                    providerr!.getBookMark();
+                                  },
+                                  icon: const Icon(Icons.bookmark_add)),
+                              IconButton(
+                                  onPressed: () {
+                                    inAppWebViewController!.goBack();
+                                  },
+                                  icon: const Icon(Icons.arrow_back_ios_new)),
+                              IconButton(
+                                  onPressed: () {
+                                    inAppWebViewController!.reload();
+                                  },
+                                  icon: const Icon(Icons.refresh)),
+                              IconButton(
+                                  onPressed: () {
+                                    inAppWebViewController!.goForward();
+                                  },
+                                  icon: const Icon(Icons.arrow_forward_ios)),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    LinearProgressIndicator(
-                      color: Colors.blue,
-                      value: progressValue,
+                  )
+                ],
+              )
+            : const Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image(
+                      image: AssetImage("asset/image/wifi.png"),
+                      width: 100,
+                      height: 100,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              inAppWebViewController!.loadUrl(
-                                urlRequest: URLRequest(
-                                  url: Uri.parse(
-                                      "https://www.google.co.in/"),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.home_filled)),
-                        IconButton(
-                            onPressed: () async {
-                              String uri = (await inAppWebViewController!.getUrl()).toString();
-                              providerr!.bookMarkData!.add(uri);
-                              ShareHelper sharHelper = ShareHelper();
-                              await sharHelper.setBookMark(providerr!.bookMarkData!);
-                              providerr!.getBookMark();
-                            },
-                            icon: const Icon(Icons.bookmark_add)),
-                        IconButton(
-                            onPressed: () {
-                              inAppWebViewController!.goBack();
-                            },
-                            icon: const Icon(Icons.arrow_back_ios_new)),
-                        IconButton(
-                            onPressed: () {
-                              inAppWebViewController!.reload();
-                            },
-                            icon: const Icon(Icons.refresh)),
-                        IconButton(
-                            onPressed: () {
-                              inAppWebViewController!.goForward();
-                            },
-                            icon: const Icon(Icons.arrow_forward_ios)),
-                      ],
-                    ),
+                    Text(
+                      "No Network Connection",
+                      style: TextStyle(fontSize: 20),
+                    )
                   ],
                 ),
               ),
-            )
-          ],
-        )
-            : const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage("asset/image/wifi.png"),
-                width: 100,
-                height: 100,
-              ),
-              Text(
-                "No Network Connection",
-                style: TextStyle(fontSize: 20),
-              )
-            ],
-          ),
-        ),
       ),
     );
   }

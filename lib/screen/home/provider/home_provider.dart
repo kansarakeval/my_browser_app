@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:my_browser_app/screen/home/modal/home_modal.dart';
 import 'package:my_browser_app/util/shere_helper.dart';
-
 class HomeProvider with ChangeNotifier{
   bool isOnline = false;
+
 
   List<HomeModel> services =[
     HomeModel(link: "https://myaadhaar.uidai.gov.in/genricDownloadAadhaar"),
@@ -36,4 +37,17 @@ class HomeProvider with ChangeNotifier{
     notifyListeners();
   }
 
+  double progressValue = 0.0;
+  void setProgress(progress)
+  {
+    progressValue=progress/100;
+    notifyListeners();
+  }
+  // void pullRefersh(progress)
+  // {
+  //   if (progress == 100) {
+  //     pullToRefreshController?.endRefreshing();
+  //     notifyListeners();
+  //   }
+  // }
 }

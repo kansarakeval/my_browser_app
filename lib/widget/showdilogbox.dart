@@ -16,7 +16,7 @@ void ShowdilogboxSheet(BuildContext context)
               child: Column(
                 children: [
                   SizedBox(height: 20,),
-                  Text(" ${context.read<HomeProvider>().bookMarkData!}")
+                  Text(" ${context.read<HomeProvider>().bookMarkData![index]}")
                 ],
               ),
             );
@@ -27,4 +27,3 @@ void ShowdilogboxSheet(BuildContext context)
     );
   },);
 }
-
