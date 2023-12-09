@@ -13,7 +13,6 @@ A few resources to get you started if this is your first Flutter project:
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
-https://github.com/kansarakeval/my_browser_app/assets/119046853/f0fb52e3-99ed-4462-890d-669ecfbf27c7
 
 samples, guidance on mobile development, and a full API reference.
 <p>
@@ -25,6 +24,7 @@ samples, guidance on mobile development, and a full API reference.
   <img src="https://github.com/kansarakeval/my_browser_app/assets/119046853/09055ec8-3ad6-4ee9-a01d-f2e607ec4cd7" hight="500" width="150">
   <img src="https://github.com/kansarakeval/my_browser_app/assets/119046853/2d1f0892-3bbd-4a68-816a-825a80692243" hight="500" width="150">
   <img src="https://github.com/kansarakeval/my_browser_app/assets/119046853/0f40c812-cfe1-4abd-8818-2c2104c0a0fd" hight="500" width="150">
+  <img src="https://github.com/kansarakeval/my_browser_app/assets/119046853/f0fb52e3-99ed-4462-890d-669ecfbf27c7" hight="300" width="190">
 </p>
 
 
