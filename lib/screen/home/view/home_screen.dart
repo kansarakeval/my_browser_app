@@ -96,6 +96,7 @@ class HomeScreenState extends State<HomeScreen> {
             ? Stack(
                 children: [
                   InAppWebView(
+                    pullToRefreshController: pullToRefreshController,
                     initialUrlRequest: URLRequest(
                       url: Uri.parse("https://www.google.co.in/"),
                     ),

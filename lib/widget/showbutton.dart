@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:my_browser_app/screen/home/provider/home_provider.dart';
 import 'package:my_browser_app/screen/home/view/home_screen.dart';
