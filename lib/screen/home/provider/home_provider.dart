@@ -20,7 +20,7 @@ class HomeProvider with ChangeNotifier {
 
   void getBookMark() async {
     ShareHelper shareHelper = ShareHelper();
-    bookMarkData = await shareHelper.getBookMark();
+    bookMarkData = await shareHelper.getBookMarkData();
     notifyListeners();
   }
 
